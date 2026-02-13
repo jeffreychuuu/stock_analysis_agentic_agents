@@ -7,6 +7,70 @@
 
 本系統的核心特色在於 **「用戶主導的內容篩選與流程控制」**。每一個階段的輸出都必須經過用戶的審核與確認，確保最終決策完全符合用戶的邏輯與偏好。
 
+```mermaid
+graph TD
+    Start([開始分析]) --> Phase1[第一階段: 專家平行研究]
+
+    subgraph P1 [專家團隊]
+        FA[Fundamental Analyst]
+        TA[Technical Analyst]
+        SA[Sentiment Analyst]
+    end
+
+    Phase1 --> P1
+    P1 --> User1{<b>用戶核准 1</b>}
+
+    User1 -- 拒絕/修改 --> Phase1
+    User1 -- 核准內容 --> Phase2[第二階段: 牛熊立場辯論]
+
+    subgraph P2 [辯論團隊]
+        Bull[Bullish Analyst]
+        Bear[Bearish Analyst]
+    end
+
+    Phase2 --> P2
+    P2 --> User2{<b>用戶核准 2</b>}
+
+    User2 -- 重新辯論 --> Phase2
+    User2 -- 核准總結 --> Phase3[第三階段: 自動策略制定]
+
+    subgraph P3 [策略制定]
+        Trader[Trader]
+    end
+
+    Phase3 --> P3
+    P3 --> User3{<b>用戶核准 3</b>}
+
+    User3 -- 修改點位 --> Phase3
+    User3 -- 核准策略 --> Phase4[第四階段: 風險團隊辯論]
+
+    subgraph P4 [風險管理]
+        ARM[Aggressive Risk Mgr]
+        NRM[Neutral Risk Mgr]
+        CRM[Conservative Risk Mgr]
+    end
+
+    Phase4 --> P4
+    P4 --> User4{<b>用戶核准 4</b>}
+
+    User4 -- 重新評估 --> Phase4
+    User4 -- 核准風險報告 --> Phase5[第五階段: 最終決策與報告]
+
+    subgraph P5 [決策中心]
+        FM[Final Manager]
+    end
+
+    Phase5 --> P5
+    P5 --> Output([產出最終投資建議書])
+
+    style User1 fill:#f9f,stroke:#333,stroke-width:2px
+    style User2 fill:#f9f,stroke:#333,stroke-width:2px
+    style User3 fill:#f9f,stroke:#333,stroke-width:2px
+    style User4 fill:#f9f,stroke:#333,stroke-width:2px
+    style Start fill:#dfd
+    style Output fill:#dfd
+```
+
 ### 1. 第一階段：專家研究 (Specialist Research)
 *   **數據獲取**：自動調用 Yahoo Finance MCP 工具獲取財務、新聞及歷史股價。
 *   **平行研究**：
