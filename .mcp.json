@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+        "yfmcp": {
+          "type": "stdio",
+          "command": "uvx",
+          "args": [
+            "yfmcp@latest"
+          ],
+          "env": {}
+        }
+      }
+}
