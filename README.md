@@ -26,12 +26,15 @@ graph TD
     User1 -- Approve Content --> Phase2[Phase 2: Bull vs Bear Debate]
 
     subgraph P2 [Debate Team]
+        DM[Debate Moderator]
         Bull[Bullish Analyst]
         Bear[Bearish Analyst]
     end
 
-    Phase2 --> P2
-    P2 --> User2{<b>User Approval 2</b>}
+    Phase2 --> DM
+    DM --> Bull & Bear
+    Bull & Bear --> DM
+    DM --> User2{<b>User Approval 2</b>}
 
     User2 -- Re-debate --> Phase2
     User2 -- Approve Summary --> Phase3[Phase 3: Automated Strategy Formulation]
@@ -47,13 +50,16 @@ graph TD
     User3 -- Approve Strategy --> Phase4[Phase 4: Risk Team Debate]
 
     subgraph P4 [Risk Management]
+        CRO[Chief Risk Officer]
         ARM[Aggressive Risk Mgr]
         NRM[Neutral Risk Mgr]
         CRM[Conservative Risk Mgr]
     end
 
-    Phase4 --> P4
-    P4 --> User4{<b>User Approval 4</b>}
+    Phase4 --> CRO
+    CRO --> ARM & NRM & CRM
+    ARM & NRM & CRM --> CRO
+    CRO --> User4{<b>User Approval 4</b>}
 
     User4 -- Re-evaluate --> Phase4
     User4 -- Approve Risk Report --> Phase5[Phase 5: Final Decision & Synthesis]
@@ -73,6 +79,13 @@ graph TD
     style Output fill:#dfd
 ```
 
+## Team Configuration
+
+| Team Name | Team Lead | Members |
+| :--- | :--- | :--- |
+| `debate-team` | `debate-moderator` | `bullish-analyst`, `bearish-analyst`, `debate-moderator` |
+| `risk-manager-team` | `chief-risk-officer` | `aggressive-risk-manager`, `neutral-risk-manager`, `conservative-risk-manager`, `chief-risk-officer` |
+
 ### 1. Phase 1: Specialist Research
 *   **Data Acquisition**: Automatically calls Yahoo Finance MCP tools to fetch financials, news, and price history.
 *   **Parallel Research**:
@@ -82,20 +95,22 @@ graph TD
 *   **User Approval Point**: User reviews the three reports, decides which content to adopt, or requests re-runs for specific parts.
 
 ### 2. Phase 2: Bull vs Bear Debate
+*   **Team Coordination**: The `Debate Moderator` orchestrates the `debate-team` and presents a "Conflict Map".
 *   **Constrained Environment**: `Bullish Analyst` and `Bearish Analyst` can only debate based on content approved by the user in Phase 1.
 *   **Content Offense/Defense**: Builds the strongest chains of evidence for both long and short positions.
-*   **User Approval Point**: User reviews the debate summary, filters valid points, and decides if further debate rounds are needed.
+*   **User Approval Point**: User reviews the moderator's Conflict Map via `AskUserQuestion`, filters valid points, and decides if further debate rounds are needed.
 
 ### 3. Phase 3: Automated Strategy Formulation
 *   **Trader Intervention**: Automatically formulates Entry points, Targets, and Stop-Losses based on approved research and debate content.
 *   **User Approval Point**: User reviews the strategy recommendations to ensure the execution logic meets expectations.
 
 ### 4. Phase 4: Risk Management Team Debate
+*   **Team Coordination**: The `Chief Risk Officer (CRO)` manages a multi-round debate among specialists.
 *   **Three Perspectives**:
     *   **Aggressive Risk Manager**: Seeks profit maximization and momentum.
     *   **Neutral Risk Manager**: Seeks risk-reward balance and win probability.
     *   **Conservative Risk Manager**: Seeks capital preservation and margin of safety.
-*   **Round-based Review**: After each round of risk debate, the user reviews all three viewpoints, decides to exclude unreasonable items, or requests further debate.
+*   **Round-based Review**: After each round of risk debate, the user reviews the CRO's synthesis, decides to exclude unreasonable items, or requests further debate.
 
 ### 5. Phase 5: Final Decision & Synthesis
 *   **Automated Decision**: `Final Manager` integrates all "user-approved" historical records to automatically make a final `EXECUTION` or `REJECT` judgment.
@@ -115,16 +130,22 @@ At every node of the workflow, the user holds the following controls:
 | **Fundamental Analyst** | Financial statement analysis, valuation, growth potential. |
 | **Technical Analyst** | Trend analysis, support/resistance, technical patterns. |
 | **Sentiment Analyst** | News interpretation, fear/greed analysis, social sentiment. |
+| **Debate Moderator** | Orchestrates debates and maps core conflicts. |
 | **Bullish Analyst** | Constructs the strongest bullish logic and catalysts. |
 | **Bearish Analyst** | Constructs the strongest bearish logic and risk factors. |
 | **Trader** | Translates approved research into concrete entry/exit plans. |
+| **Chief Risk Officer** | Orchestrates risk assessment and multi-round synthesis. |
 | **Aggressive Risk Mgr** | Evaluates opportunity cost and profit momentum. |
 | **Neutral Risk Mgr** | Evaluates win rates and risk-reward ratios. |
 | **Conservative Risk Mgr** | Evaluates drawdowns and margin of safety. |
-| **Final Manager** | Process overseer, responsible for the final decision report. |
+| **Final Manager** | Responsible for executive reporting and final verdict based on user-approved history. |
 
 ## Usage
-1.  Start the `multi-agent-trading-analysis` skill.
+1.  **Enable Experimental Features**: To support parallel agent teams, you must enable the experimental setting in Claude Code:
+    ```bash
+    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
+    ```
+2.  Start the `multi-agent-trading-analysis` skill.
 2.  Enter the target stock Ticker.
 3.  Follow prompts to perform content review at each stage.
 
