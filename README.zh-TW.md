@@ -26,12 +26,15 @@ graph TD
     User1 -- 核准內容 --> Phase2[第二階段: 牛熊立場辯論]
 
     subgraph P2 [辯論團隊]
+        DM[辯論主持人]
         Bull[Bullish Analyst]
         Bear[Bearish Analyst]
     end
 
-    Phase2 --> P2
-    P2 --> User2{<b>用戶核准 2</b>}
+    Phase2 --> DM
+    DM --> Bull & Bear
+    Bull & Bear --> DM
+    DM --> User2{<b>用戶核准 2</b>}
 
     User2 -- 重新辯論 --> Phase2
     User2 -- 核准總結 --> Phase3[第三階段: 自動策略制定]
@@ -47,13 +50,16 @@ graph TD
     User3 -- 核准策略 --> Phase4[第四階段: 風險團隊辯論]
 
     subgraph P4 [風險管理]
+        CRO[首席風險官]
         ARM[Aggressive Risk Mgr]
         NRM[Neutral Risk Mgr]
         CRM[Conservative Risk Mgr]
     end
 
-    Phase4 --> P4
-    P4 --> User4{<b>用戶核准 4</b>}
+    Phase4 --> CRO
+    CRO --> ARM & NRM & CRM
+    ARM & NRM & CRM --> CRO
+    CRO --> User4{<b>用戶核准 4</b>}
 
     User4 -- 重新評估 --> Phase4
     User4 -- 核准風險報告 --> Phase5[第五階段: 最終決策與報告]
@@ -73,6 +79,13 @@ graph TD
     style Output fill:#dfd
 ```
 
+## 團隊配置
+
+| 團隊名稱 | 團隊負責人 | 團隊成員 |
+| :--- | :--- | :--- |
+| `debate-team` | `debate-moderator` | `bullish-analyst`, `bearish-analyst`, `debate-moderator` |
+| `risk-manager-team` | `chief-risk-officer` | `aggressive-risk-manager`, `neutral-risk-manager`, `conservative-risk-manager`, `chief-risk-officer` |
+
 ### 1. 第一階段：專家研究 (Specialist Research)
 *   **數據獲取**：自動調用 Yahoo Finance MCP 工具獲取財務、新聞及歷史股價。
 *   **平行研究**：
@@ -82,20 +95,22 @@ graph TD
 *   **用戶核准點**：用戶審閱三份報告，決定採納內容或要求針對特定部分重跑。
 
 ### 2. 第二階段：牛熊立場辯論 (Bull vs Bear Debate)
+*   **團隊協作**：`辯論主持人` 協調 `debate-team` 並產出「衝突地圖」。
 *   **受限環境**：`Bullish Analyst` 與 `Bearish Analyst` 僅能基於用戶第一階段核准的內容進行辯論。
 *   **內容攻防**：建立多方與空方的最強證據鏈。
-*   **用戶核准點**：用戶審閱辯論總結，篩選合理的攻防點，決定是否需要更多輪次的辯論。
+*   **用戶核准點**：用戶透過 `AskUserQuestion` 審閱主持人的衝突地圖，篩選合理的攻防點，決定是否需要更多輪次的辯論。
 
 ### 3. 第三階段：自動策略制定 (Strategy Formulation)
 *   **Trader 介入**：根據核准的研究與辯論內容，自動制定入場點 (Entry)、目標價 (Target) 與停損點 (Stop-Loss)。
 *   **用戶核准點**：用戶審核策略建議，確保執行邏輯符合預期。
 
 ### 4. 第四階段：風險管理團隊辯論 (Risk Management Debate)
+*   **團隊協作**：`首席風險官 (CRO)` 管理專家之間的多輪辯論。
 *   **三方視角**：
     *   **Aggressive Risk Manager**：積極型，追求利潤極大化。
     *   **Neutral Risk Manager**：中立型，追求風險回報平衡。
     *   **Conservative Risk Manager**：保守型，追求資本保值。
-*   **分輪審核**：每一輪風險辯論後，用戶皆可審閱三方觀點，決定剔除不合理項目或要求繼續辯論。
+*   **分輪審核**：每一輪風險辯論後，用戶皆可審閱 CRO 的總結觀點，決定剔除不合理項目或要求繼續辯論。
 
 ### 5. 第五階段：最終決策與報告 (Final Decision & Synthesis)
 *   **自動決策**：`Final Manager` 整合所有「經用戶核准」的歷史紀錄，自動做出 `EXECUTION` 或 `REJECT` 的最終判斷。
@@ -115,16 +130,22 @@ graph TD
 | **Fundamental Analyst** | 財務報表分析、估值評估、業務增長潛力。 |
 | **Technical Analyst** | 趨勢分析、支撐/壓力位判定、技術形態識別。 |
 | **Sentiment Analyst** | 新聞解讀、市場恐慌/貪婪程度分析、社交輿論導向。 |
+| **辯論主持人** | 協調辯論並繪製核心衝突圖。 |
 | **Bullish Analyst** | 構建最強看多邏輯，尋找增長催化劑。 |
 | **Bearish Analyst** | 構建最強看空邏輯，識別潛在風險因素。 |
 | **Trader** | 將核准的研究轉化為具體的交易入場與出場計劃。 |
-| **Aggressive Risk Mgr** | 評估機會成本與獲利動能. |
-| **Neutral Risk Mgr** | 評估勝率與風險回報比. |
-| **Conservative Risk Mgr** | 評估資本回撤與安全邊際. |
-| **Final Manager** | 流程監督者，負責產出最終決策報告. |
+| **首席風險官** | 協調風險評估與多輪綜合分析。 |
+| **Aggressive Risk Mgr** | 評估機會成本與獲利動能。 |
+| **Neutral Risk Mgr** | 評估勝率與風險回報比。 |
+| **Conservative Risk Mgr** | 評估資本回撤與安全邊際。 |
+| **Final Manager** | 負責執行報告，並根據用戶核准的歷史紀錄做出最終裁決。 |
 
 ## 使用方式
-1.  啟動 `multi-agent-trading-analysis` 技能。
+1.  **啟用實驗性功能**：為了支援代理人團隊平行運作，你必須在 Claude Code 中啟用實驗性設定：
+    ```bash
+    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
+    ```
+2.  啟動 `multi-agent-trading-analysis` 技能。
 2.  輸入目標股票代碼（Ticker）。
 3.  跟隨提示，在每個階段進行內容審核。
 
