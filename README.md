@@ -1,5 +1,7 @@
 # Multi-Agent Trading Analysis (HITL Workflow)
 
+[English](README.en.md) | [繁體中文](README.md)
+
 ## 專案概述
 本專案是一個基於 Claude Code 的專業級股票分析系統，採用多代理人協作架構（Multi-Agent System）與全面的人類審核機制（Human-in-the-Loop, HITL）。系統模擬專業投資機構的運作流程，從數據獲取、專家研究、牛熊辯論到多維度風險管理，最終產出專業的投資報告。
 
@@ -116,10 +118,10 @@ graph TD
 | **Bullish Analyst** | 構建最強看多邏輯，尋找增長催化劑。 |
 | **Bearish Analyst** | 構建最強看空邏輯，識別潛在風險因素。 |
 | **Trader** | 將核准的研究轉化為具體的交易入場與出場計劃。 |
-| **Aggressive Risk Mgr** | 評估機會成本與獲利動能。 |
-| **Neutral Risk Mgr** | 評估勝率與風險回報比。 |
-| **Conservative Risk Mgr** | 評估資本回撤與安全邊際。 |
-| **Final Manager** | 流程監督者，負責產出最終決策報告。 |
+| **Aggressive Risk Mgr** | 評估機會成本與獲利動能. |
+| **Neutral Risk Mgr** | 評估勝率與風險回報比. |
+| **Conservative Risk Mgr** | 評估資本回撤與安全邊際. |
+| **Final Manager** | 流程監督者，負責產出最終決策報告. |
 
 ## 使用方式
 1.  啟動 `multi-agent-trading-analysis` 技能。
