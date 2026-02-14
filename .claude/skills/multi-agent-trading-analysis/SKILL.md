@@ -11,9 +11,9 @@ description: 執行包含全面人類審核 (Human-in-the-Loop) 的多代理人�
 ## 執行流程
 
 ### 第一階段：專家研究與用戶確認
-1. **數據獲取**：使用 Yahoo Finance MCP 工具並行獲取財務、新聞及價格歷史數據。
-2. **專家報告**：調用 `fundamental-analyst`, `technical-analyst`, 及 `sentiment-analyst` 生成報告。
-3. **用戶審核 (關鍵互動點)**：呈現三份報告。
+1. **數據獲取**：使用 Yahoo Finance MCP 工具並行獲取財務、新聞、宏觀指標及價格歷史數據。
+2. **專家報告**：調用 `fundamental-analyst`, `technical-analyst`, `sentiment-analyst` 及 `macro-analyst` 生成報告。
+3. **用戶審核 (關鍵互動點)**：呈現四份報告（包含宏觀報告）。
    - **用戶操作**：決定是否接受報告、指定哪些部分不合理需剔除、或要求針對特定項目重跑。
    - **輸出**：僅保留「用戶確認核准」的內容進入下一階段。
 
