@@ -3,11 +3,11 @@
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
 ## Project Overview
-This project is a professional-grade stock analysis system based on Claude Code, featuring a Multi-Agent System (MAS) architecture with a comprehensive Human-in-the-Loop (HITL) mechanism. The system simulates the operational workflow of a professional investment firm, from data acquisition and specialist research to bull/bear debates and multi-dimensional risk management, culminating in a professional investment report.
+This project is a professional-grade stock analysis system based on Claude Code, featuring a Multi-Agent System (MAS) architecture with a comprehensive Human-in-the-Loop (HITL) mechanism. The system is **Zero-Code Driven**, meaning all quantitative logic is handled dynamically by agents without pre-written scripts. It simulates the operational workflow of a professional investment firm, from multi-asset portfolio research and specialist analysis to bull/bear debates and advanced risk engine simulations (VaR/Monte Carlo).
 
 ## The Flow (Core Workflow)
 
-The core feature of this system is **"User-led Content Filtering and Process Control."** Outputs from every stage must be reviewed and confirmed by the user, ensuring the final decision aligns perfectly with the user's logic and preferences.
+The core feature of this system is **"User-led Content Filtering and Process Control."** Outputs from every stage must be reviewed and confirmed by the user.
 
 ```mermaid
 graph TD
@@ -17,6 +17,9 @@ graph TD
         FA[Fundamental Analyst]
         TA[Technical Analyst]
         SA[Sentiment Analyst]
+        MA[Macro Analyst]
+        OA[Options Analyst]
+        PA[Portfolio Analyst]
     end
 
     Phase1 --> P1
@@ -34,10 +37,11 @@ graph TD
     P2 --> User2{<b>User Approval 2</b>}
 
     User2 -- Re-debate --> Phase2
-    User2 -- Approve Summary --> Phase3[Phase 3: Automated Strategy Formulation]
+    User2 -- Approve Summary --> Phase3[Phase 3: Strategy & Quant Verification]
 
-    subgraph P3 [Strategy Formulation]
+    subgraph P3 [Quant Strategy]
         Trader[Trader]
+        QE[Dynamic Quant Engine: Backtest/Risk]
     end
 
     Phase3 --> P3
@@ -74,54 +78,55 @@ graph TD
 ```
 
 ### 1. Phase 1: Specialist Research
-*   **Data Acquisition**: Automatically calls Yahoo Finance MCP tools to fetch financials, news, and price history.
+*   **Data Acquisition**: Automatically calls Yahoo Finance MCP tools to fetch financials, news, price history, and options chains.
 *   **Parallel Research**:
-    *   **Fundamental Analyst**: Analyzes fundamentals and financial health.
-    *   **Technical Analyst**: Analyzes technical indicators and price action.
-    *   **Sentiment Analyst**: Analyzes market sentiment and news direction.
-*   **User Approval Point**: User reviews the three reports, decides which content to adopt, or requests re-runs for specific parts.
+    *   **Fundamental Analyst**: Financial health and valuation.
+    *   **Technical Analyst**: Price action and indicators.
+    *   **Sentiment Analyst**: News and market mood.
+    *   **Macro Analyst**: Global economic context.
+    *   **Options Analyst**: Implied volatility and market expectations via options.
+    *   **Portfolio Analyst**: Correlation analysis and asset allocation optimization.
+*   **User Approval Point**: User reviews the six reports and decides which content to adopt.
 
 ### 2. Phase 2: Bull vs Bear Debate
-*   **Constrained Environment**: `Bullish Analyst` and `Bearish Analyst` can only debate based on content approved by the user in Phase 1.
-*   **Content Offense/Defense**: Builds the strongest chains of evidence for both long and short positions.
-*   **User Approval Point**: User reviews the debate summary, filters valid points, and decides if further debate rounds are needed.
+*   **Constrained Environment**: Agents debate strictly based on Phase 1 approved content.
+*   **User Approval Point**: User filters valid points and decides if further rounds are needed.
 
-### 3. Phase 3: Automated Strategy Formulation
-*   **Trader Intervention**: Automatically formulates Entry points, Targets, and Stop-Losses based on approved research and debate content.
-*   **User Approval Point**: User reviews the strategy recommendations to ensure the execution logic meets expectations.
+### 3. Phase 3: Strategy & Quant Verification (Zero-Code)
+*   **Trader Formulation**: Strategy with specific Entry/Exit/SL targets.
+*   **Dynamic Quant Engine**: Real-time execution of:
+    *   **Backtesting**: Performance including slippage and commissions.
+    *   **Risk Engine**: 99% VaR/CVaR and 10,000-path Monte Carlo simulations.
+*   **User Approval Point**: User reviews strategy alongside quantitative validation data.
 
 ### 4. Phase 4: Risk Management Team Debate
-*   **Three Perspectives**:
-    *   **Aggressive Risk Manager**: Seeks profit maximization and momentum.
-    *   **Neutral Risk Manager**: Seeks risk-reward balance and win probability.
-    *   **Conservative Risk Manager**: Seeks capital preservation and margin of safety.
-*   **Round-based Review**: After each round of risk debate, the user reviews all three viewpoints, decides to exclude unreasonable items, or requests further debate.
+*   **Arbitration**: ARM, NRM, and CRM agents debate based on the quantitative risk data (VaR, PoP).
+*   **User Approval Point**: User reviews the risk-adjusted perspectives.
 
 ### 5. Phase 5: Final Decision & Synthesis
-*   **Automated Decision**: `Final Manager` integrates all "user-approved" historical records to automatically make a final `EXECUTION` or `REJECT` judgment.
-*   **Report Generation**: Produces a tightly structured professional investment proposal, strictly based on approved content.
+*   **Automated Decision**: `Final Manager` integrates all approved historical records for the final judgment.
+*   **Report Generation**: Produces a professional Investment Memorandum.
 
-## Universal Approval Pattern
-
-At every node of the workflow, the user holds the following controls:
-1.  **Accept**: Content is correct, proceed to the next stage.
-2.  **Filter (Include/Exclude)**: Specify particular arguments or data to keep or discard.
-3.  **Rethink/Re-run**: Request agents to re-analyze or re-debate based on revised instructions.
+## Zero-Code Architecture
+This project maintains **no permanent Python script files**. All logic is defined in Markdown agents and skills. Computations are performed via dynamic on-the-fly script execution by agents using the underlying environment, ensuring a pure prompt-driven experience.
 
 ## Agent Roles at a Glance
 
 | Agent Name | Core Responsibility |
 | :--- | :--- |
-| **Fundamental Analyst** | Financial statement analysis, valuation, growth potential. |
-| **Technical Analyst** | Trend analysis, support/resistance, technical patterns. |
-| **Sentiment Analyst** | News interpretation, fear/greed analysis, social sentiment. |
-| **Bullish Analyst** | Constructs the strongest bullish logic and catalysts. |
-| **Bearish Analyst** | Constructs the strongest bearish logic and risk factors. |
-| **Trader** | Translates approved research into concrete entry/exit plans. |
-| **Aggressive Risk Mgr** | Evaluates opportunity cost and profit momentum. |
-| **Neutral Risk Mgr** | Evaluates win rates and risk-reward ratios. |
-| **Conservative Risk Mgr** | Evaluates drawdowns and margin of safety. |
-| **Final Manager** | Process overseer, responsible for the final decision report. |
+| **Fundamental Analyst** | Financials and valuation. |
+| **Technical Analyst** | Trends and support/resistance. |
+| **Sentiment Analyst** | Market narrative and news. |
+| **Macro Analyst** | Interest rates and macro catalysts. |
+| **Options Analyst** | IV, Skew, and Option Walls. |
+| **Portfolio Analyst** | Correlations and Weight Optimization. |
+| **Bullish Analyst** | Bullish logic and catalysts. |
+| **Bearish Analyst** | Bearish logic and risk factors. |
+| **Trader** | Execution plans (Entry/Target/Stop). |
+| **Aggressive Risk Mgr** | Opportunity cost and momentum. |
+| **Neutral Risk Mgr** | Risk-reward and win probability. |
+| **Conservative Risk Mgr** | Drawdowns and VaR limits. |
+| **Final Manager** | CIO role, responsible for the final memo. |
 
 ## Usage
 1.  Start the `multi-agent-trading-analysis` skill.

@@ -44,15 +44,19 @@ color: cyan
 
 ### 2. 投資邏輯摘要 (Investment Thesis Summary)
 
-- **基本面支撐**：(引用 Fundamental Analyst 的核心數據，如營收成長或估值優勢)
-- **技術面時機**：(引用 Technical Analyst 的關鍵點位與趨勢判斷)
-- **情緒面催化**：(引用 Sentiment Analyst 的市場敘事與預期差)
+- **基本面支撐**：(引用 Fundamental Analyst 的核心數據)
+- **技術面時機**：(引用 Technical Analyst 的關鍵點位)
+- **期權與波動率**：(引用 Options Analyst 的數據)
+- **情緒面催化**：(引用 Sentiment Analyst 的敘事)
+- **投資組合配置**：(引用 Portfolio Analyst 的配置比例與相關性分析，說明該標的在組合中的角色)
 
-### 3. 多空與風險辯論回顧 (Debate & Risk Review)
+### 3. 多空、回測與壓力測試回顧 (Review)
 
-- **多方核心論點**：(Bullish Analyst 最強的買入理由)
-- **空方關鍵警示**：(Bearish Analyst 最致命的風險提示)
-- **風控仲裁結果**：(總結 Risk Managers 的最終建議，例如：「採納中立派建議，分批建倉以降低波動風險。」)
+- **多方核心論點**：(Bullish Analyst 的最強理由)
+- **空方關鍵警示**：(Bearish Analyst 的致命風險)
+- **歷史驗證回測**：(引用動態回測績效，包含勝率、盈虧比及真實交易成本影響)
+- **壓力測試 (Stress Test)**：(引用 99% VaR 與蒙地卡羅模擬結果，說明極端情況下的下行空間與獲利機率)
+- **風控仲裁結果**：(總結 Risk Managers 的建議)
 
 ### 4. 交易執行指令 (Execution Order)
 
